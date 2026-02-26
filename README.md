@@ -47,6 +47,12 @@ The project includes unit tests for all service layers using JUnit 5 and Mockito
 - Metrics: `/actuator/metrics`
 - Prometheus Metrics: `/actuator/prometheus`
 
+## API Documentation
+The API documentation is automatically generated using Springdoc OpenAPI and can be accessed at `http://localhost:9090/swagger-ui/index.html` once the application is running.
+But you can also download the Postman Collection and Environment files to test the API endpoints using Postman:
+- Download Postman Collection here [Download](./api-docs/Book-Lending.postman_collection.json)
+- Download Postman Environtment here [Download](./api-docs/Book-Lending.postman_environment.json)
+
 ## How to Run
 1. Clone the repository:
     ```bash 

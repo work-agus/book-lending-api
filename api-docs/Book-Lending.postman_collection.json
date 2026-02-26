@@ -1,0 +1,424 @@
+{
+	"info": {
+		"_postman_id": "89883b65-8acb-4d43-8ade-70e2b6abd286",
+		"name": "Book Lending",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9996547",
+		"_collection_link": "https://agus44.postman.co/workspace/Personal~bb4ae854-b3a4-4b18-ba67-d42740f43d60/collection/9996547-89883b65-8acb-4d43-8ade-70e2b6abd286?action=share&source=collection_link&creator=9996547"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Pastikan response sukses 200",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"",
+									"    if (response.accessToken) {",
+									"        // Set ke environment",
+									"        pm.environment.set(\"AUTH_TOKEN\", response.accessToken);",
+									"",
+									"        // Ambil kembali dari environment",
+									"        const savedToken = pm.environment.get(\"AUTH_TOKEN\");",
+									"",
+									"        // Validasi apakah berhasil tersimpan",
+									"        pm.test(\"Access token successfully saved to environment\", function () {",
+									"            pm.expect(savedToken).to.eql(response.accessToken);",
+									"        });",
+									"",
+									"        console.log(\"Saved Token:\", savedToken);",
+									"    } else {",
+									"        console.log(\"Token tidak ditemukan di response\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}auth/login",
+							"host": [
+								"{{BASE_URL}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Book",
+			"item": [
+				{
+					"name": "Get books",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}books",
+							"host": [
+								"{{BASE_URL}}books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Atomic Habbit\",\n    \"author\": \"James Clear\",\n    \"isbn\": \"978-0-735-21129-2\",\n    \"totalCopies\": 20000000,\n    \"availableCopies\": 2000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}books",
+							"host": [
+								"{{BASE_URL}}books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Atomic Habbit V2\",\n    \"author\": \"James Clear\",\n    \"isbn\": \"978-0-735-21129-2\",\n    \"totalCopies\": 20000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}books/019c9836-af31-7323-b8f8-c283de3d07c7",
+							"host": [
+								"{{BASE_URL}}books"
+							],
+							"path": [
+								"019c9836-af31-7323-b8f8-c283de3d07c7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}books/3f4602f4-90c9-44e5-9c97-6eddff45c996",
+							"host": [
+								"{{BASE_URL}}books"
+							],
+							"path": [
+								"3f4602f4-90c9-44e5-9c97-6eddff45c996"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}books/019c9836-af31-7323-b8f8-c283de3d07c7",
+							"host": [
+								"{{BASE_URL}}books"
+							],
+							"path": [
+								"019c9836-af31-7323-b8f8-c283de3d07c7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "Get members",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}members",
+							"host": [
+								"{{BASE_URL}}members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Agus Susanto\",\n    \"email\": \"agus@gmail.com\",\n    \"phoneNumber\": \"+6285659519671\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}members",
+							"host": [
+								"{{BASE_URL}}members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"James Clear\",\n    \"email\": \"james123@gmail.com\",\n    \"phoneNumber\": \"+6285659519671\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}members/019c9858-2073-7512-afe7-e4eb27704f8d",
+							"host": [
+								"{{BASE_URL}}members"
+							],
+							"path": [
+								"019c9858-2073-7512-afe7-e4eb27704f8d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get detail book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}members/019c9858-2073-7512-afe7-e4eb27704f8d",
+							"host": [
+								"{{BASE_URL}}members"
+							],
+							"path": [
+								"019c9858-2073-7512-afe7-e4eb27704f8d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}members/019c9858-2073-7512-afe7-e4eb27704f8d",
+							"host": [
+								"{{BASE_URL}}members"
+							],
+							"path": [
+								"019c9858-2073-7512-afe7-e4eb27704f8d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Loan",
+			"item": [
+				{
+					"name": "Borrow book",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{AUTH_TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"memberId\": \"019c98f1-05a2-7a1a-b8ab-99e36c984bd0\",\n    \"bookId\": \"019c98f0-899e-7146-8544-baa8ffd00b91\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}loans/borrow",
+							"host": [
+								"{{BASE_URL}}loans"
+							],
+							"path": [
+								"borrow"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
