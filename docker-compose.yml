@@ -12,12 +12,16 @@ services:
     mem_reservation: 300m
     cpus: 1.0
     environment:
+      DB_HOST: postgres-db
       JAVA_OPTS: >
         -XX:ActiveProcessorCount=1
         -XX:MaxRAMPercentage=60
         -XX:InitialRAMPercentage=40
         -XX:+UseG1GC
         -XX:+ExitOnOutOfMemoryError
+    depends_on:
+      postgres-db:
+        condition: service_healthy
     networks:
       - net-booklending
 
@@ -34,11 +38,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myuser -d mydb"]
+      test: ["CMD-SHELL", "pg_isready -U booklending -d booklending"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
+    networks:
+      - net-booklending
 
 volumes:
   postgres_data:

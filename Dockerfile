@@ -13,11 +13,6 @@ RUN mvn clean package -DskipTests
 # STEP 2: RUNNER (SLIM & DEBUGGABLE)
 # Using a slim image that supports apt-get to install curl/tools
 # =========================================================================
-FROM openjdk:17.0.1-jdk-slim
-
-# =========================================================================
-# STEP 2: RUNNER
-# =========================================================================
 FROM eclipse-temurin:17-jre
 
 # 1. Install dependencies as ROOT
@@ -35,7 +30,7 @@ RUN groupadd -r appgroup && useradd -r -g appgroup appuser
 
 # Copy logs & jar (Note --chown so non-root users can access)
 COPY --from=builder --chown=appuser:appgroup /build/logs ./logs
-COPY --from=builder --chown=appuser:appgroup /build/target/microsite-*.jar app.jar
+COPY --from=builder --chown=appuser:appgroup /build/target/demandlane-booklending-*.jar app.jar
 
 EXPOSE 9090
 

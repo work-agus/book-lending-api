@@ -11,9 +11,9 @@ spring:
     name: demandlane-booklending
 
   datasource:
-    username: booklending
-    password: booklending@123
-    url: jdbc:postgresql://localhost:5432/booklending
+    username: ${DB_USERNAME:booklending}
+    password: ${DB_PASSWORD:booklending@123}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:booklending}
 
   jpa:
     hibernate:
