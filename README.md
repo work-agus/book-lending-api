@@ -1,7 +1,7 @@
 # Book Lending API
 
 ## Summary
-DemandLane Book Lending API is a RESTful backend service built with Spring Boot 3 for managing a library book lending system. It provides a complete set of endpoints to manage books, members, and loan transactions — including borrowing and returning books with business rule enforcement such as maximum loan limits, overdue book checks, and copy availability tracking.
+DemandLane Book Lending API is a RESTful backend service built with Spring Boot 3 for managing a library book lending system. It provides a complete set of endpoints to manage books, members, and loan transactions, including borrowing and returning books with business rule enforcement such as maximum loan limits, overdue book checks, and copy availability tracking.
 
 ## Security
 The API is secured using **JWT-based** stateless authentication, with role-based access control managed through Spring Security
@@ -49,3 +49,6 @@ base entity, and full API documentation exposed through **Swagger/OpenAPI** (Spr
     docker-compose up --build
     ```
 4. Access the API documentation at `http://localhost:9090/swagger-ui/index.html`
+
+## Disclaimer
+*I developed this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
