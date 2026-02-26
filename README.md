@@ -56,13 +56,13 @@ base entity, and full API documentation exposed through **Swagger/OpenAPI** (Spr
 ## Sequence Diagrams
 
 ### Authentication Flow
-<img src="img/auth.jpg" width="600" />
+<img src="img/auth.jpg" />
 
 ### Security Flow
-<img src="img/jwt-filter.jpg" width="600" />
+<img src="img/jwt-filter.jpg" />
 
 ### Borrowing a Book Flow
-<img src="img/borrow.jpg" width="600" />
+<img src="img/borrow.jpg" />
 
 ### Returning a Book Flow
-<img src="img/return.jpg" width="600" />
+<img src="img/return.jpg" />
