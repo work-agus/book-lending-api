@@ -51,4 +51,4 @@ base entity, and full API documentation exposed through **Swagger/OpenAPI** (Spr
 4. Access the API documentation at `http://localhost:9090/swagger-ui/index.html`
 
 ## Disclaimer
-*I developed this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
+*I created this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work, formed from my experience over several years as a software engineer. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
