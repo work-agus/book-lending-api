@@ -109,7 +109,7 @@ class LoanServiceTest {
         @Test
         @DisplayName("should return false when no overdue books")
         void hasOverdueBooks_false() {
-            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(
+            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(
                     eq(memberId), any(OffsetDateTime.class)))
                     .thenReturn(List.of());
             assertThat(loanService.hasOverdueBooks(memberId)).isFalse();
@@ -118,7 +118,7 @@ class LoanServiceTest {
         @Test
         @DisplayName("should return true when member has overdue books")
         void hasOverdueBooks_true() {
-            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(
+            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(
                     eq(memberId), any(OffsetDateTime.class)))
                     .thenReturn(List.of(sampleLoan));
             assertThat(loanService.hasOverdueBooks(memberId)).isTrue();
@@ -134,7 +134,7 @@ class LoanServiceTest {
             when(bookService.isBookAvailable(bookId)).thenReturn(true);
             when(loanRepository.findByMemberIdAndReturnedAtIsNull(memberId))
                     .thenReturn(List.of()); // no active loans
-            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(
+            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(
                     eq(memberId), any(OffsetDateTime.class)))
                     .thenReturn(List.of()); // no overdue
             when(bookService.getBookById(bookId)).thenReturn(Optional.of(sampleBook));
@@ -213,7 +213,7 @@ class LoanServiceTest {
             when(bookService.isBookAvailable(bookId)).thenReturn(true);
             when(loanRepository.findByMemberIdAndReturnedAtIsNull(memberId))
                     .thenReturn(List.of()); // under the limit
-            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(
+            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(
                     eq(memberId), any(OffsetDateTime.class)))
                     .thenReturn(List.of(sampleLoan)); // has overdue
 
@@ -233,7 +233,7 @@ class LoanServiceTest {
             when(bookService.isBookExist(bookId)).thenReturn(true);
             when(bookService.isBookAvailable(bookId)).thenReturn(true);
             when(loanRepository.findByMemberIdAndReturnedAtIsNull(memberId)).thenReturn(List.of());
-            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(
+            when(loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(
                     eq(memberId), any(OffsetDateTime.class))).thenReturn(List.of());
 
             loanService.validateLoan(memberId, bookId);
