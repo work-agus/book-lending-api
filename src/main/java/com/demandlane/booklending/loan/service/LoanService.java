@@ -5,8 +5,9 @@ import com.demandlane.booklending.book.service.BookService;
 import com.demandlane.booklending.common.exception.ResourceNotFoundException;
 import com.demandlane.booklending.common.util.Constants;
 import com.demandlane.booklending.common.util.Utils;
-import com.demandlane.booklending.loan.dto.LoanRequestDto;
+import com.demandlane.booklending.loan.dto.LoanBorrowRequestDto;
 import com.demandlane.booklending.loan.dto.LoanResponseDto;
+import com.demandlane.booklending.loan.dto.LoanReturnRequestDto;
 import com.demandlane.booklending.loan.model.Loan;
 import com.demandlane.booklending.loan.repository.LoanRepository;
 import com.demandlane.booklending.member.model.Member;
@@ -19,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,19 +48,19 @@ public class LoanService {
     }
 
     @Transactional
-    public LoanResponseDto borrowBook(LoanRequestDto loanRequest) {
-        LOGGER.info("Processing loan request for member ID {} and book ID {}", loanRequest.getMemberId(),
-                loanRequest.getBookId());
+    public LoanResponseDto borrowBook(LoanBorrowRequestDto requestDto) {
+        LOGGER.info("Processing loan request for member ID {} and book ID {}", requestDto.getMemberId(),
+                requestDto.getBookId());
 
-        this.validateLoan(loanRequest.getMemberId(), loanRequest.getBookId());
+        this.validateLoan(requestDto.getMemberId(), requestDto.getBookId());
 
-        Book book = this.bookService.getBookById(loanRequest.getBookId()).get();
-        Member member = this.memberService.getMemberById(loanRequest.getMemberId()).get();
+        Book book = this.bookService.getBookById(requestDto.getBookId()).get();
+        Member member = this.memberService.getMemberById(requestDto.getMemberId()).get();
 
         UUID uuid7 = UuidCreator.getTimeOrderedEpoch();
 
-        LOGGER.info("Creating loan record with ID {} for member ID {} and book ID {}", uuid7, loanRequest.getMemberId(),
-                loanRequest.getBookId());
+        LOGGER.info("Creating loan record with ID {} for member ID {} and book ID {}", uuid7, requestDto.getMemberId(),
+                requestDto.getBookId());
 
         Loan loan = new Loan();
         loan.setId(uuid7);
@@ -78,7 +77,7 @@ public class LoanService {
         this.bookService.saveBook(book);
 
         LOGGER.info("Loan created successfully with ID {} for member ID {} and book ID {}", savedLoan.getId(),
-                loanRequest.getMemberId(), loanRequest.getBookId());
+                requestDto.getMemberId(), requestDto.getBookId());
 
         return LoanResponseDto.builder()
                 .id(savedLoan.getId())
@@ -90,17 +89,17 @@ public class LoanService {
     }
 
     @Transactional
-    public LoanResponseDto returnBook(UUID loanId) {
-        LOGGER.info("Processing return for loan ID {}", loanId);
+    public LoanResponseDto returnBook(LoanReturnRequestDto requestDto) {
+        LOGGER.info("Processing return for loan ID {}", requestDto.getLoanId());
 
-        Loan loan = this.loanRepository.findById(loanId).orElseThrow(() -> {
-            LOGGER.error("Return failed: Loan with ID {} not found", loanId);
-            return new ResourceNotFoundException("Loan with ID " + loanId + " not found");
+        Loan loan = this.loanRepository.findById(requestDto.getLoanId()).orElseThrow(() -> {
+            LOGGER.error("Return failed: Loan with ID {} not found", requestDto.getLoanId());
+            return new ResourceNotFoundException("Loan with ID " + requestDto.getLoanId() + " not found");
         });
 
         if (loan.getReturnedAt() != null) {
-            LOGGER.error("Return failed: Loan with ID {} has already been returned", loanId);
-            throw new ResourceNotFoundException("Loan with ID " + loanId + " has already been returned");
+            LOGGER.error("Return failed: Loan with ID {} has already been returned", requestDto.getLoanId());
+            throw new ResourceNotFoundException("Loan with ID " + requestDto.getLoanId() + " has already been returned");
         }
 
         loan.setReturnedAt(OffsetDateTime.now());
@@ -111,7 +110,7 @@ public class LoanService {
         book.setAvailableCopies(book.getAvailableCopies() + 1);
         this.bookService.saveBook(book);
 
-        LOGGER.info("Book returned successfully for loan ID {}", loanId);
+        LOGGER.info("Book returned successfully for loan ID {}", requestDto.getLoanId());
 
         return LoanResponseDto.builder()
                 .id(result.getId())

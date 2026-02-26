@@ -4,7 +4,7 @@ import com.demandlane.booklending.book.model.Book;
 import com.demandlane.booklending.book.service.BookService;
 import com.demandlane.booklending.common.exception.ResourceNotFoundException;
 import com.demandlane.booklending.common.util.Constants;
-import com.demandlane.booklending.loan.dto.LoanRequestDto;
+import com.demandlane.booklending.loan.dto.LoanBorrowRequestDto;
 import com.demandlane.booklending.loan.dto.LoanResponseDto;
 import com.demandlane.booklending.loan.model.Loan;
 import com.demandlane.booklending.loan.repository.LoanRepository;
@@ -52,7 +52,7 @@ class LoanServiceTest {
     private Book sampleBook;
     private Member sampleMember;
     private Loan sampleLoan;
-    private LoanRequestDto loanRequest;
+    private LoanBorrowRequestDto loanRequest;
 
     @BeforeEach
     void setUp() {
@@ -78,7 +78,7 @@ class LoanServiceTest {
         sampleLoan.setBorrowedAt(OffsetDateTime.now());
         sampleLoan.setDueDate(OffsetDateTime.now().plusDays(Constants.LOAN_PERIOD_DAYS));
 
-        loanRequest = new LoanRequestDto();
+        loanRequest = new LoanBorrowRequestDto();
         loanRequest.setMemberId(memberId);
         loanRequest.setBookId(bookId);
     }

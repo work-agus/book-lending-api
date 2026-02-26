@@ -1,6 +1,5 @@
 package com.demandlane.booklending.loan.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +12,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanRequestDto {
-    @NotNull(message = "Member ID is required")
-    private UUID memberId;
-
-    @NotNull(message = "Book ID is required")
-    private UUID bookId;
+public class LoanReturnRequestDto {
+    @NotNull(message = "Loan ID is required")
+    private UUID loanId;
 }
