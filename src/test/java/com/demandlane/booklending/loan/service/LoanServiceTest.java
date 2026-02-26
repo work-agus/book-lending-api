@@ -239,4 +239,53 @@ class LoanServiceTest {
             loanService.validateLoan(memberId, bookId);
         }
     }
+
+    @Nested
+    @DisplayName("returnBook()")
+    class ReturnBook {
+        private com.demandlane.booklending.loan.dto.LoanReturnRequestDto returnRequest;
+
+        @BeforeEach
+        void setUp() {
+            returnRequest = new com.demandlane.booklending.loan.dto.LoanReturnRequestDto();
+            returnRequest.setLoanId(sampleLoan.getId());
+        }
+
+        @Test
+        @DisplayName("should return book successfully")
+        void returnBook_success() {
+            int originalCopies = sampleBook.getAvailableCopies();
+            when(loanRepository.findById(sampleLoan.getId())).thenReturn(Optional.of(sampleLoan));
+            when(loanRepository.save(any(Loan.class))).thenReturn(sampleLoan);
+
+            LoanResponseDto result = loanService.returnBook(returnRequest);
+
+            assertThat(result).isNotNull();
+            assertThat(result.getReturnedAt()).isNotNull();
+            assertThat(sampleBook.getAvailableCopies()).isEqualTo(originalCopies + 1);
+            verify(loanRepository).save(sampleLoan);
+            verify(bookService).saveBook(sampleBook);
+        }
+
+        @Test
+        @DisplayName("should throw ResourceNotFoundException when loan not found")
+        void returnBook_loanNotFound() {
+            when(loanRepository.findById(sampleLoan.getId())).thenReturn(Optional.empty());
+
+            assertThatThrownBy(() -> loanService.returnBook(returnRequest))
+                    .isInstanceOf(ResourceNotFoundException.class)
+                    .hasMessageContaining("not found");
+        }
+
+        @Test
+        @DisplayName("should throw ResourceNotFoundException when loan already returned")
+        void returnBook_alreadyReturned() {
+            sampleLoan.setReturnedAt(OffsetDateTime.now());
+            when(loanRepository.findById(sampleLoan.getId())).thenReturn(Optional.of(sampleLoan));
+
+            assertThatThrownBy(() -> loanService.returnBook(returnRequest))
+                    .isInstanceOf(ResourceNotFoundException.class)
+                    .hasMessageContaining("already been returned");
+        }
+    }
 }
