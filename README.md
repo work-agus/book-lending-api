@@ -8,6 +8,7 @@
 - [Database](#database)
 - [Testing](#testing)
 - [Tech Stack](#tech-stack)
+- [API Documentation](#api-documentation)
 - [Links](#links)
 - [How to Run](#how-to-run)
 - [Disclaimer](#disclaimer)
