@@ -1,13 +1,8 @@
 package com.demandlane.booklending.member.service;
 
-import com.demandlane.booklending.book.dto.BookRequestDto;
-import com.demandlane.booklending.book.dto.BookResponseDto;
-import com.demandlane.booklending.book.model.Book;
-import com.demandlane.booklending.book.repository.BookRepository;
 import com.demandlane.booklending.common.exception.DataInvalidException;
 import com.demandlane.booklending.common.exception.ResourceNotFoundException;
 import com.demandlane.booklending.common.util.Utils;
-import com.demandlane.booklending.loan.service.LoanService;
 import com.demandlane.booklending.member.dto.MemberRequestDto;
 import com.demandlane.booklending.member.dto.MemberResponseDto;
 import com.demandlane.booklending.member.model.Member;
@@ -16,6 +11,7 @@ import com.github.f4b6a3.uuid.UuidCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -53,7 +49,8 @@ public class MemberService {
 
     public MemberResponseDto getDetailMembers(UUID id) {
         LOGGER.info("Fetching details for member with ID: {}", id);
-        Member member = this.memberRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        Member member = this.memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         return MemberResponseDto.builder()
                 .id(member.getId())
                 .name(member.getName())
@@ -62,6 +59,7 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
     public MemberResponseDto createNewMember(MemberRequestDto request) {
         LOGGER.info("Creating new member with email: {}", request.getEmail());
 
@@ -90,6 +88,7 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
     public MemberResponseDto updateMember(UUID id, MemberRequestDto request) {
         LOGGER.info("Updating member with ID: {}", id);
 
@@ -120,10 +119,12 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
     public void deleteMember(UUID id) {
         LOGGER.info("Deleting member with ID: {}", id);
 
-        Member member = this.memberRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Member not found"));
+        Member member = this.memberRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Member not found"));
         member.setIsActive(false);
         member.setDeletedAt(OffsetDateTime.now());
         member.setDeletedBy(Utils.getSystemUUID());

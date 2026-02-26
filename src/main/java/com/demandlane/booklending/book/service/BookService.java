@@ -11,6 +11,7 @@ import com.github.f4b6a3.uuid.UuidCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -40,6 +41,10 @@ public class BookService {
         return this.bookRepository.existsById(id);
     }
 
+    public Book saveBook(Book book) {
+        return this.bookRepository.save(book);
+    }
+
     public List<BookResponseDto> getListOfBooks() {
         LOGGER.info("Fetching list of all books from the repository");
 
@@ -65,6 +70,7 @@ public class BookService {
                 .build();
     }
 
+    @Transactional
     public BookResponseDto createNewBook(BookRequestDto request) {
         LOGGER.info("Creating new book with title: {}", request.getTitle());
 
@@ -74,7 +80,8 @@ public class BookService {
         }
 
         if (request.getAvailableCopies() > request.getTotalCopies()) {
-            LOGGER.error("Book creation failed: Available copies {} cannot be greater than total copies {}", request.getAvailableCopies(), request.getTotalCopies());
+            LOGGER.error("Book creation failed: Available copies {} cannot be greater than total copies {}",
+                    request.getAvailableCopies(), request.getTotalCopies());
             throw new DataInvalidException("Available copies cannot be greater than total copies");
         }
 
@@ -102,6 +109,7 @@ public class BookService {
                 .build();
     }
 
+    @Transactional
     public BookResponseDto updateBook(UUID id, BookRequestDto request) {
         LOGGER.info("Updating book with ID: {}", id);
         Book book = this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
@@ -112,7 +120,8 @@ public class BookService {
         }
 
         if (request.getAvailableCopies() > request.getTotalCopies()) {
-            LOGGER.error("Book update failed: Available copies {} cannot be greater than total copies {}", request.getAvailableCopies(), request.getTotalCopies());
+            LOGGER.error("Book update failed: Available copies {} cannot be greater than total copies {}",
+                    request.getAvailableCopies(), request.getTotalCopies());
             throw new DataInvalidException("Available copies cannot be greater than total copies");
         }
 
@@ -136,6 +145,7 @@ public class BookService {
                 .build();
     }
 
+    @Transactional
     public void deleteBook(UUID id) {
         LOGGER.info("Deleting book with ID: {}", id);
 

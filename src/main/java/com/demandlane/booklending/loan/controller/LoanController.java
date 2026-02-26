@@ -26,4 +26,8 @@ public class LoanController {
         return ResponseEntity.ok(Utils.getResponse(this.loanService.borrowBook(requestDto)));
     }
 
+    public ResponseEntity<ResponseDto<?>> returnBook() {
+        return ResponseEntity.ok(Utils.getResponse(null));
+    }
+
 }

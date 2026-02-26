@@ -1,4 +1,26 @@
 services:
+  app:
+    container_name: booklending-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PUBLISHED_PORT}:9090"
+    env_file:
+      - .env
+    mem_limit: 1024m
+    mem_reservation: 300m
+    cpus: 1.0
+    environment:
+      JAVA_OPTS: >
+        -XX:ActiveProcessorCount=1
+        -XX:MaxRAMPercentage=60
+        -XX:InitialRAMPercentage=40
+        -XX:+UseG1GC
+        -XX:+ExitOnOutOfMemoryError
+    networks:
+      - net-booklending
+
   postgres-db:
     image: postgres:17-alpine
     container_name: postgres-container
@@ -20,3 +42,7 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  net-booklending:
+    driver: bridge
