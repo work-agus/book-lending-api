@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface LoanRepository extends JpaRepository<Loan, UUID> {
     List<Loan> findByMemberIdAndReturnedAtIsNull(UUID memberId);
-    List<Loan> findByMemberIdAndReturnedAtIsNullAndDueDateAfter(UUID memberId, OffsetDateTime now);
+    List<Loan> findByMemberIdAndReturnedAtIsNullAndDueDateBefore(UUID memberId, OffsetDateTime now);
 }

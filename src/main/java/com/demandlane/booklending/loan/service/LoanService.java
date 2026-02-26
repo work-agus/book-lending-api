@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,7 +44,7 @@ public class LoanService {
 
     public boolean hasOverdueBooks(UUID memberId) {
         LOGGER.info("Checking if member with ID {} has overdue books", memberId);
-        return !this.loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateAfter(memberId, OffsetDateTime.now())
+        return !this.loanRepository.findByMemberIdAndReturnedAtIsNullAndDueDateBefore(memberId, OffsetDateTime.now())
                 .isEmpty();
     }
 
