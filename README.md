@@ -1,7 +1,24 @@
 # Book Lending API
 
+## Table of Contents
+- [Summary](#summary)
+- [Sequence Diagrams](#sequence-diagrams)
+- [Architecture](#architecture)
+- [Security](#security)
+- [Database](#database)
+- [Testing](#testing)
+- [Tech Stack](#tech-stack)
+- [Links](#links)
+- [How to Run](#how-to-run)
+- [Disclaimer](#disclaimer)
+
 ## Summary
-DemandLane Book Lending API is a RESTful backend service built with Spring Boot 3 for managing a library book lending system. It provides a complete set of endpoints to manage books, members, and loan transactions, including borrowing and returning books with business rule enforcement such as maximum loan limits, overdue book checks, and copy availability tracking.
+DemandLane Book Lending API is a RESTful backend service built with **Spring Boot 3** for managing a library book lending system. It provides a complete set of endpoints to manage books, members, and loan transactions, including borrowing and returning books with business rule enforcement such as maximum loan limits, overdue book checks, and copy availability tracking.
+
+## Architecture
+The service follows a clean layered architecture (Controller → Service → Repository) with **soft-delete** support, **automatic auditing via an
+Auditable**
+base entity, and full API documentation exposed through **Swagger/OpenAPI** (Springdoc).
 
 ## Security
 The API is secured using **JWT-based** stateless authentication, with role-based access control managed through Spring Security
@@ -11,11 +28,6 @@ Data is persisted in PostgreSQL using **JPA/Hibernate**, with **Flyway** handlin
 
 ## Testing
 The project includes unit tests for all service layers using JUnit 5 and Mockito, covering success paths, validation failures, and edge cases across **AuthService** , **BookService**, **MemberService**, and **LoanService**.
-
-## Architecture
-The service follows a clean layered architecture (Controller → Service → Repository) with **soft-delete** support, **automatic auditing via an
-Auditable**
-base entity, and full API documentation exposed through **Swagger/OpenAPI** (Springdoc).
 
 ## Tech Stack
 - **Language**: Java 17
