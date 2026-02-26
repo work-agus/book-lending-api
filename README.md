@@ -52,3 +52,17 @@ base entity, and full API documentation exposed through **Swagger/OpenAPI** (Spr
 
 ## Disclaimer
 *I created this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work, formed from my experience over several years as a software engineer. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
+
+## Sequence Diagrams
+
+### Authentication Flow
+<img src="img/auth.jpg" width="600" />
+
+### Security Flow
+<img src="img/jwt-filter.jpg" width="600" />
+
+### Borrowing a Book Flow
+<img src="img/borrow.jpg" width="600" />
+
+### Returning a Book Flow
+<img src="img/return.jpg" width="600" />
