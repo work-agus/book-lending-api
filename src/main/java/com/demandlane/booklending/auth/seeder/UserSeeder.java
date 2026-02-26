@@ -2,9 +2,12 @@ package com.demandlane.booklending.auth.seeder;
 
 import com.demandlane.booklending.auth.auth.UserRepository;
 import com.demandlane.booklending.auth.model.User;
+import com.demandlane.booklending.auth.service.AuthService;
 import com.demandlane.booklending.common.util.Constants;
 import com.demandlane.booklending.common.util.Utils;
 import com.github.f4b6a3.uuid.UuidCreator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -14,6 +17,8 @@ import java.util.UUID;
 
 @Component
 public class UserSeeder implements CommandLineRunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserSeeder.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,6 +30,8 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        LOGGER.info("Starting user seeding process...");
+
         if (userRepository.count() == 0) {
             User user0 = new User();
             user0.setId(Utils.getSystemUUID());
@@ -53,7 +60,7 @@ public class UserSeeder implements CommandLineRunner {
             user2.setRole("MEMBER");
 
             userRepository.saveAll(List.of(user0, user1, user2));
-            System.out.println("Database seeded with default users.");
+            LOGGER.info("User seeding completed successfully. {} users created.", userRepository.count());
         }
     }
 }
