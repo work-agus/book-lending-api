@@ -7,6 +7,7 @@ import com.demandlane.booklending.member.dto.MemberResponseDto;
 import com.demandlane.booklending.member.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/members")
+@PreAuthorize("hasRole('ADMIN')")
 public class MemberController {
 
     private final MemberService memberService;
@@ -38,7 +40,8 @@ public class MemberController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseDto<MemberResponseDto>> update(@PathVariable UUID id, @RequestBody MemberRequestDto request) {
+    public ResponseEntity<ResponseDto<MemberResponseDto>> update(@PathVariable UUID id,
+            @RequestBody MemberRequestDto request) {
         return ResponseEntity.ok(Utils.getResponse(this.memberService.updateMember(id, request)));
     }
 

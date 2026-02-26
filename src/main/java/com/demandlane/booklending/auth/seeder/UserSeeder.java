@@ -59,7 +59,16 @@ public class UserSeeder implements CommandLineRunner {
             user2.setEmail("john@example.com");
             user2.setRole("MEMBER");
 
-            userRepository.saveAll(List.of(user0, user1, user2));
+            UUID uuid7User3 = UuidCreator.getTimeOrderedEpoch();
+            User user3 = new User();
+            user3.setId(uuid7User3);
+            user3.setName("Librarian");
+            user3.setUsername("librarian");
+            user3.setPassword(passwordEncoder.encode("password123"));
+            user3.setEmail("library@example.com");
+            user3.setRole("LIBRARIAN");
+
+            userRepository.saveAll(List.of(user0, user1, user2, user3));
             LOGGER.info("User seeding completed successfully. {} users created.", userRepository.count());
         }
     }

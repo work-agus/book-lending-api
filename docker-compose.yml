@@ -1,29 +1,29 @@
 services:
-  app:
-    container_name: booklending-app
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "${PUBLISHED_PORT}:9090"
-    env_file:
-      - .env
-    mem_limit: 1024m
-    mem_reservation: 300m
-    cpus: 1.0
-    environment:
-      DB_HOST: postgres-db
-      JAVA_OPTS: >
-        -XX:ActiveProcessorCount=1
-        -XX:MaxRAMPercentage=60
-        -XX:InitialRAMPercentage=40
-        -XX:+UseG1GC
-        -XX:+ExitOnOutOfMemoryError
-    depends_on:
-      postgres-db:
-        condition: service_healthy
-    networks:
-      - net-booklending
+#  app:
+#    container_name: booklending-app
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "${PUBLISHED_PORT}:9090"
+#    env_file:
+#      - .env
+#    mem_limit: 1024m
+#    mem_reservation: 300m
+#    cpus: 1.0
+#    environment:
+#      DB_HOST: postgres-db
+#      JAVA_OPTS: >
+#        -XX:ActiveProcessorCount=1
+#        -XX:MaxRAMPercentage=60
+#        -XX:InitialRAMPercentage=40
+#        -XX:+UseG1GC
+#        -XX:+ExitOnOutOfMemoryError
+#    depends_on:
+#      postgres-db:
+#        condition: service_healthy
+#    networks:
+#      - net-booklending
 
   postgres-db:
     image: postgres:17-alpine

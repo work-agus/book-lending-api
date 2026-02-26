@@ -8,15 +8,10 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Where;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Data
-@Where(clause = "is_active = true")
+@Where(clause = "deleted_at IS NULL")
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = true)

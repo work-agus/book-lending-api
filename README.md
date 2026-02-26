@@ -5,6 +5,7 @@
 - [Sequence Diagrams](#sequence-diagrams)
 - [Architecture](#architecture)
 - [Security](#security)
+- [Default User Credentials](#default-user-credentials)
 - [Database](#database)
 - [Testing](#testing)
 - [Tech Stack](#tech-stack)
@@ -22,7 +23,7 @@ Auditable**
 base entity, and full API documentation exposed through **Swagger/OpenAPI** (Springdoc).
 
 ## Security
-The API is secured using **JWT-based** stateless authentication, with role-based access control managed through Spring Security
+The API is secured using **JWT-based** stateless authentication, with role-based access control managed through Spring Security.
 
 ## Database
 Data is persisted in PostgreSQL using **JPA/Hibernate**, with **Flyway** handling database schema migrations reliably across environments. All write operations are wrapped in **transactional** boundaries to ensure data consistency.
@@ -53,6 +54,27 @@ The API documentation is automatically generated using Springdoc OpenAPI and can
 But you can also download the Postman Collection and Environment files to test the API endpoints using Postman:
 - Download Postman Collection here [Download](./api-docs/Book-Lending.postman_collection.json)
 - Download Postman Environtment here [Download](./api-docs/Book-Lending.postman_environment.json)
+
+## Default User Credentials
+The following users are pre-seeded in the database for testing purposes:
+
+| Name | Role | Username | Password |
+|------|------|----------|----------|
+| System | `SYSTEM` | `system` | `system123` |
+| Admin | `ADMIN` | `admin` | `admin123` |
+| Member | `MEMBER` | `johndoe` | `password123` |
+| Librarian | `LIBRARIAN` | `librarian` | `password123` |
+
+### API Access Control
+The following table outlines which roles have access to specific API endpoints:
+
+| Endpoint | Method | Required Roles |
+|----------|--------|----------------|
+| `/auth/login` | POST | Permit All |
+| `/books` | GET | `ADMIN`, `LIBRARIAN`, `MEMBER` |
+| `/books` | POST/PUT/DELETE | `ADMIN`, `LIBRARIAN` |
+| `/loans/**` | ALL | `ADMIN`, `LIBRARIAN` |
+| `/members/**` | ALL | `ADMIN` |
 
 ## How to Run
 1. Clone the repository:

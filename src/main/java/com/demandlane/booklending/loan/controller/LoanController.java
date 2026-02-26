@@ -8,6 +8,7 @@ import com.demandlane.booklending.loan.dto.LoanReturnRequestDto;
 import com.demandlane.booklending.loan.service.LoanService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/loans")
+@PreAuthorize("hasAnyRole('ADMIN', 'LIBRARIAN')")
 public class LoanController {
     private final LoanService loanService;
 
@@ -23,12 +25,14 @@ public class LoanController {
     }
 
     @PostMapping("/borrow")
-    public ResponseEntity<ResponseDto<LoanResponseDto>> borrowBook(@Valid @RequestBody LoanBorrowRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<LoanResponseDto>> borrowBook(
+            @Valid @RequestBody LoanBorrowRequestDto requestDto) {
         return ResponseEntity.ok(Utils.getResponse(this.loanService.borrowBook(requestDto)));
     }
 
     @PostMapping("/return")
-    public ResponseEntity<ResponseDto<LoanResponseDto>> returnBook(@Valid @RequestBody LoanReturnRequestDto requestDto) {
+    public ResponseEntity<ResponseDto<LoanResponseDto>> returnBook(
+            @Valid @RequestBody LoanReturnRequestDto requestDto) {
         return ResponseEntity.ok(Utils.getResponse(this.loanService.returnBook(requestDto)));
     }
 
