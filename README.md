@@ -28,3 +28,24 @@ base entity, and full API documentation exposed through **Swagger/OpenAPI** (Spr
 - **Build Tool**: Maven
 - **Utilities**: Lombok, uuid-creator
 - **Testing**: JUnit 5, Mockito
+
+## Links
+- API Documentation: `/swagger-ui/index.html`
+- Health Check: `/actuator/health`
+- Metrics: `/actuator/metrics`
+- Prometheus Metrics: `/actuator/prometheus`
+
+## How to Run
+1. Clone the repository:
+    ```bash 
+    git clone 
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd book-lending-api
+    ```
+3. Build the project using docker compose:
+    ```bash
+    docker-compose up --build
+    ```
+4. Access the API documentation at `http://localhost:9090/swagger-ui/index.html`
