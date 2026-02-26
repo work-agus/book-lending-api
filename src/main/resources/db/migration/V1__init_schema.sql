@@ -4,7 +4,7 @@ CREATE TABLE books (
     author VARCHAR(100) NOT NULL,
     isbn VARCHAR(50) UNIQUE NOT NULL,
     total_copies INTEGER NOT NULL DEFAULT 0,
-    available_copies BOOLEAN NOT NULL DEFAULT FALSE,
+    available_copies INTEGER NOT NULL DEFAULT 0,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_by UUID,

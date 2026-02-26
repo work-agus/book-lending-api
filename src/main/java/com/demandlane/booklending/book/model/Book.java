@@ -13,7 +13,7 @@ import java.util.UUID;
 
 
 @Data
-@Where(clause = "is_active = true")
+@Where(clause = "deleted_at IS NULL")
 @Entity
 @Table(name = "books")
 @EqualsAndHashCode(callSuper = true)
@@ -35,5 +35,5 @@ public class Book extends Auditable {
     private Integer totalCopies = 0;
 
     @Column(name = "available_copies", nullable = false)
-    private Boolean availableCopies = false;
+    private Integer availableCopies = 0;
 }

@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
-@Where(clause = "is_active = true")
+@Where(clause = "deleted_at IS NULL")
 @Entity
 @Table(name = "loans")
 @EqualsAndHashCode(callSuper = true)

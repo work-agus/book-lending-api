@@ -12,7 +12,7 @@ import org.hibernate.annotations.Where;
 import java.util.UUID;
 
 @Data
-@Where(clause = "is_active = true")
+@Where(clause = "deleted_at IS NULL")
 @Entity
 @Table(name = "members")
 @EqualsAndHashCode(callSuper = true)

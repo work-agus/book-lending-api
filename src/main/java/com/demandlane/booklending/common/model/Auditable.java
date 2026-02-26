@@ -44,4 +44,5 @@ public class Auditable {
     protected void onUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
+
 }

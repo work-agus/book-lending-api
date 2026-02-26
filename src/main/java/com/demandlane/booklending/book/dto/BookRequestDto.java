@@ -28,4 +28,7 @@ public class BookRequestDto {
 
     @NotNull(message = "Total copies is required")
     private Integer totalCopies;
+
+    @NotNull(message = "Available copies is required")
+    private Integer availableCopies;
 }

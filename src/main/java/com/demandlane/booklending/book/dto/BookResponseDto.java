@@ -12,5 +12,5 @@ public class BookResponseDto {
     public String title;
     public String author;
     public Integer totalCopies;
-    public Boolean availableCopies;
+    public Integer availableCopies;
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,6 +25,14 @@ public class MemberService {
 
     public MemberService(MemberRepository bookRepository) {
         this.memberRepository = bookRepository;
+    }
+
+    public boolean isMemberExist(UUID id) {
+        return this.memberRepository.existsById(id);
+    }
+
+    public Optional<Member> getMemberById(UUID id) {
+        return this.memberRepository.findById(id);
     }
 
     public List<MemberResponseDto> getListOfMembers() {

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,19 @@ public class BookService {
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    public Optional<Book> getBookById(UUID id) {
+        return this.bookRepository.findById(id);
+    }
+
+    public boolean isBookAvailable(UUID id) {
+        Book book = this.bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+        return book.getAvailableCopies() > 0 && book.getIsActive();
+    }
+
+    public boolean isBookExist(UUID id) {
+        return this.bookRepository.existsById(id);
     }
 
     public List<BookResponseDto> getListOfBooks() {
@@ -48,6 +62,10 @@ public class BookService {
             throw new DataInvalidException("Book with ISBN " + request.getIsbn() + " already exists");
         }
 
+        if (request.getAvailableCopies() > request.getTotalCopies()) {
+            throw new DataInvalidException("Available copies cannot be greater than total copies");
+        }
+
         UUID uuid7 = UuidCreator.getTimeOrderedEpoch();
 
         Book book = new Book();
@@ -56,7 +74,7 @@ public class BookService {
         book.setAuthor(request.getAuthor());
         book.setIsbn(request.getIsbn());
         book.setTotalCopies(request.getTotalCopies());
-        book.setAvailableCopies(request.getTotalCopies() > 0);
+        book.setAvailableCopies(request.getAvailableCopies());
         book.setCreatedBy(Utils.getSystemUUID());
 
         Book result = this.bookRepository.save(book);
@@ -76,11 +94,15 @@ public class BookService {
             throw new DataInvalidException("Book with ISBN " + request.getIsbn() + " already exists");
         }
 
+        if (request.getAvailableCopies() > request.getTotalCopies()) {
+            throw new DataInvalidException("Available copies cannot be greater than total copies");
+        }
+
         book.setTitle(request.getTitle());
         book.setAuthor(request.getAuthor());
         book.setIsbn(request.getIsbn());
         book.setTotalCopies(request.getTotalCopies());
-        book.setAvailableCopies(request.getTotalCopies() > 0);
+        book.setAvailableCopies(request.getAvailableCopies());
         book.setUpdatedBy(Utils.getSystemUUID());
 
         Book result = this.bookRepository.save(book);
