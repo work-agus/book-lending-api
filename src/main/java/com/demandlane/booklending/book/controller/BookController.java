@@ -5,6 +5,7 @@ import com.demandlane.booklending.book.dto.BookResponseDto;
 import com.demandlane.booklending.book.service.BookService;
 import com.demandlane.booklending.common.dto.ResponseDto;
 import com.demandlane.booklending.common.util.Utils;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,19 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto<BookResponseDto>> create(@RequestBody BookRequestDto request) {
+    public ResponseEntity<ResponseDto<BookResponseDto>> create(@Valid @RequestBody BookRequestDto request) {
         return ResponseEntity.ok(Utils.getResponse(this.bookService.createNewBook(request)));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ResponseDto<BookResponseDto>> update(@PathVariable UUID id, @RequestBody BookRequestDto request) {
+        return ResponseEntity.ok(Utils.getResponse(this.bookService.updateBook(id, request)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDto<Void>> delete(@PathVariable UUID id) {
+        this.bookService.deleteBook(id);
+        return ResponseEntity.ok(Utils.getResponse(null));
+    }
+
 }

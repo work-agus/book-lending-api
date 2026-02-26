@@ -2,6 +2,8 @@ package com.demandlane.booklending.auth.seeder;
 
 import com.demandlane.booklending.auth.auth.UserRepository;
 import com.demandlane.booklending.auth.model.User;
+import com.demandlane.booklending.common.util.Constants;
+import com.demandlane.booklending.common.util.Utils;
 import com.github.f4b6a3.uuid.UuidCreator;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,14 @@ public class UserSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
+            User user0 = new User();
+            user0.setId(Utils.getSystemUUID());
+            user0.setName("System");
+            user0.setUsername("system");
+            user0.setPassword(passwordEncoder.encode("system123"));
+            user0.setEmail("system@example.com");
+            user0.setRole("SYSTEM");
+
             UUID uuid7User1 = UuidCreator.getTimeOrderedEpoch();
             User user1 = new User();
             user1.setId(uuid7User1);
@@ -42,7 +52,7 @@ public class UserSeeder implements CommandLineRunner {
             user2.setEmail("john@example.com");
             user2.setRole("MEMBER");
 
-            userRepository.saveAll(List.of(user1, user2));
+            userRepository.saveAll(List.of(user0, user1, user2));
             System.out.println("Database seeded with default users.");
         }
     }
