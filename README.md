@@ -42,8 +42,10 @@ The project includes unit tests for all service layers using JUnit 5 and Mockito
 - **Build Tool**: Maven
 - **Utilities**: Lombok, uuid-creator
 - **Testing**: JUnit 5, Mockito
+- **Cloud**: AWS Lambda, AWS API Gateway, AWS RDS
 
 ## Links
+- Base URL (Demo): `https://gsedej9ol8.execute-api.ap-southeast-2.amazonaws.com/prod/`
 - API Documentation: `/swagger-ui/index.html`
 - Health Check: `/actuator/health`
 - Metrics: `/actuator/metrics`
