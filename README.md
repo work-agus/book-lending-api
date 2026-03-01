@@ -77,6 +77,7 @@ The following table outlines which roles have access to specific API endpoints:
 | `/members/**` | ALL | `ADMIN` |
 
 ## How to Run
+### Locally
 1. Clone the repository:
     ```bash 
     git clone 
@@ -90,6 +91,15 @@ The following table outlines which roles have access to specific API endpoints:
     docker-compose up --build
     ```
 4. Access the API documentation at `http://localhost:9090/swagger-ui/index.html`
+
+### AWS Lambda
+
+To run this application on AWS Lambda, switch to the **aws-lambda** branch, which contains a dedicated version of the source code specifically configured for serverless deployment:
+
+```bash
+git checkout aws-lambda
+```
+
 
 ## Disclaimer
 *I created this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work, formed from my experience over several years as a software engineer. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
