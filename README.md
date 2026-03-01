@@ -44,6 +44,9 @@ The project includes unit tests for all service layers using JUnit 5 and Mockito
 - **Testing**: JUnit 5, Mockito
 
 ## Links
+- Base URL: 
+  - Local: `http://localhost:9090/`
+  - AWS Lambda (Deployed Demo): `https://gsedej9ol8.execute-api.ap-southeast-2.amazonaws.com/prod/`
 - API Documentation: `/swagger-ui/index.html`
 - Health Check: `/actuator/health`
 - Metrics: `/actuator/metrics`
