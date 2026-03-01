@@ -77,19 +77,25 @@ The following table outlines which roles have access to specific API endpoints:
 | `/members/**` | ALL | `ADMIN` |
 
 ## How to Run
-1. Clone the repository:
-    ```bash 
-    git clone 
-    ```
-2. Navigate to the project directory:
-    ```bash
-    cd book-lending-api
-    ```
-3. Build the project using docker compose:
-    ```bash
-    docker-compose up --build
-    ```
-4. Access the API documentation at `http://localhost:9090/swagger-ui/index.html`
+### AWS Lambda
+1. **Build the Project**:
+   ```bash
+   mvn clean package
+   ```
+2. **Deploy to Lambda**:
+   - Create a Lambda function using the **Java 17** runtime.
+   - Upload the generated JAR file from the `target/` directory.
+   - Set the handler to your `StreamLambdaHandler` (utilizing `aws-serverless-java-container`).
+3. **Environment Variables**:
+   Configure the following variables in the Lambda console:
+   - `SPRING_DATASOURCE_URL`: The JDBC connection string for your PostgreSQL instance.
+   - `SPRING_DATASOURCE_USERNAME`: Database username.
+   - `SPRING_DATASOURCE_PASSWORD`: Database password.
+4. **Networking**:
+   Ensure the Lambda function is configured to run within the same VPC as your PostgreSQL database to allow connectivity.
+5. **API Gateway**:
+   Set up an **API Gateway** (HTTP or REST) as a proxy trigger to route requests to the Lambda function.
+
 
 ## Disclaimer
 *I created this project without using AI tools to generate code, so all the code in this repository is the result of my own hard work, formed from my experience over several years as a software engineer. I am committed to maintaining the integrity and authenticity of the code I write, and ensuring that every line of code reflects my understanding and skills in software development, particularly in Java technology.*
